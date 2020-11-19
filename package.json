@@ -1,0 +1,48 @@
+{
+  "name": "webp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "webpack:serve": "webpack serve --watch",
+    "clean:dist": "rimraf ./dist-prod && mkdir dist-prod",
+    "pre:prod": "npm-run-all clean:dist test lint",
+    "webpack:prod": "webpack --config webpack.config.prod.babel.js",
+    "prod:build": "npm-run-all pre:prod webpack:prod",
+    "start": "npm-run-all --parallel webpack:serve lint:watch test:watch",
+    "lint": "esw webpack.config.* src --color",
+    "lint:watch": "npm run lint -- --watch",
+    "test": "mocha --reporter progress src/utils/testSetup.js \"src/**/*.test.js\"",
+    "test:watch": "npm run test -- --watch"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "html-webpack-plugin": "^4.5.0",
+    "numeral": "^2.0.6"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.12.1",
+    "@babel/core": "^7.12.3",
+    "@babel/generator": "^7.12.5",
+    "@babel/node": "^7.12.6",
+    "@babel/preset-env": "^7.12.1",
+    "@babel/register": "^7.12.1",
+    "babel-loader": "^8.2.1",
+    "chai": "^4.2.0",
+    "compression-webpack-plugin": "^6.1.1",
+    "css-loader": "^5.0.1",
+    "eslint": "^7.13.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-watch": "^7.0.0",
+    "inspectpack": "^4.5.2",
+    "jsdom": "^16.4.0",
+    "lodash": "^4.17.20",
+    "mocha": "^8.2.1",
+    "npm-run-all": "^4.1.5",
+    "style-loader": "^2.0.0",
+    "webpack": "^5.4.0",
+    "webpack-cli": "^4.2.0",
+    "webpack-dev-server": "^3.11.0"
+  }
+}
