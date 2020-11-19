@@ -1,7 +1,9 @@
 import path from 'path';
 import HtmlWebPackPlugin from 'html-webpack-plugin';
 import { DuplicatesPlugin } from "inspectpack/plugin";
-import CompressionPlugin from 'compression-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+// import stylesheetUrl from "file-loader!extract-loader!css-loader!main.css";
+// import CompressionPlugin from 'compression-webpack-plugin';
 
 export default {
   mode: 'production',
@@ -15,7 +17,7 @@ export default {
   output: {
     path: path.resolve(__dirname, 'dist-prod'),
     publicPath: '',
-    filename: '[name].bundle.js'
+    filename: '[name].[contenthash].bundle.js'
   },
   module: {
     rules: [
@@ -30,17 +32,20 @@ export default {
         }
       },
       {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader']
+        test: /\.css$/i,
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       }
     ]
   },
   plugins: [
-    //Minify JS
-    new CompressionPlugin({
-      test: /\.js(\?.*)?$/,
-      exclude: /node_modules/
+    new MiniCssExtractPlugin({
+      filename: '[name].[contenthash].css'
     }),
+    //Minify JS
+    // new CompressionPlugin({
+    //   test: /\.js(\?.*)?$/,
+    //   exclude: /node_modules/
+    // }),
     new DuplicatesPlugin({
       emitErrors: false,
       verbose: false
